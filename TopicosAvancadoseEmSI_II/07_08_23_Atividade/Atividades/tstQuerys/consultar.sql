@@ -1,0 +1,1 @@
+﻿select id, descricao, datacriado, dataatividade from Atividades where id = id;
