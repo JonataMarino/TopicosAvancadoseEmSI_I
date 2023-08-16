@@ -11,7 +11,7 @@ namespace Atividades.Service
 {
 	class AtividadeService
 	{
-		string strCon = @"Server=(localdb)\MSSQLLocalDB;Integrated Security=true;AttachDbFileName=D:\Logatti 8o Termo\TopicosAvancadoseEmSI_II\07_08_23_Atividade\db_Atividade\db_Atividades.mdf";
+		string strCon = @"Server=(localdb)\MSSQLLocalDB;Integrated Security=true;AttachDbFileName=D:\Logatti 8o Termo\Topicos Avançados em SI_II\TopicosAvancadoseEmSI_II\07_08_23_Atividade\db_Atividade\db_Atividades.mdf";
 		SqlConnection conn;
 
 		public AtividadeService()
@@ -40,11 +40,13 @@ namespace Atividades.Service
 				"where Id = @Id";
 			SqlCommand commandUpdate = new SqlCommand(strUpdate, conn);
 
-			commandUpdate.Parameters.Add(new SqlParameter("@Descricao", id));
+			commandUpdate.Parameters.Add(new SqlParameter("@Id", id));
 			commandUpdate.Parameters.Add(new SqlParameter("@Descricao", atividade.Descricao));
 			commandUpdate.Parameters.Add(new SqlParameter("@DataCriado", atividade.DataCriado));
 			commandUpdate.Parameters.Add(new SqlParameter("@DataAtividade", atividade.DataAtividade));
 
+			commandUpdate.ExecuteNonQuery();
+			conn.Close();
 			return true;
 		}
 
