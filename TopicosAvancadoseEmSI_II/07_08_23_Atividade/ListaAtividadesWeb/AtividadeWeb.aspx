@@ -22,7 +22,7 @@
         <div>
             <asp:Button ID="btnNovo" runat="server" Text="Novo" OnClick="btnNovo_Click"/>
             <asp:Button ID="btnSalvar" runat="server" Text="Salvar" OnClick="btnSalvar_Click"/>
-            <asp:Button ID="btnExcluir" runat="server" Text="Excluir"/> 
+            <asp:Button ID="btnExcluir" runat="server" Text="Excluir" OnClick="btnExcluir_Click"/> 
         </div>
                     </div>
         <div id="Lista">

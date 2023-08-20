@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Web.Services.Description;
@@ -26,6 +27,8 @@ namespace ListaAtividadesWeb
 		{
 			this.idAtividade.Text = "0";
 			this.txtDdescricao.Text = "";
+			this.dtpDataCriado.SelectedDate = DateTime.MinValue;
+			this.dtpAtividade.SelectedDate = DateTime.MaxValue;
 		}
 		public bool ValidadeDados (Atividade atividade)
 		{
@@ -47,9 +50,18 @@ namespace ListaAtividadesWeb
 			ClearForm();
 		}
 
+		private void DeletarAtividade(int id)
+		{
+			if (new AtividadeWebController().DeletarAtividade(id))
+			{
+				CarregarGrid();
+				ClearForm();
+			}
+		}
+
 		protected void btnNovo_Click(object sender, EventArgs e)
 		{
-			
+			ClearForm();
 		}
 
 		protected void btnSalvar_Click(object sender, EventArgs e)
@@ -68,13 +80,23 @@ namespace ListaAtividadesWeb
 				int id = int.Parse(idAtividade.Text);
 				AtualizarAtividade(atividade, id);
 			}
-			
-		}
 
+		}
+		protected void btnExcluir_Click(object sender, EventArgs e)
+		{
+			int id = int.Parse(idAtividade.Text);
+			if (id == 0)
+			{
+
+			}
+			else this.DeletarAtividade(id);
+		}
 		protected void IdGVAtividades_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			int rowIndex = (IdGVAtividades.SelectedIndex);
 			txtDdescricao.Text = IdGVAtividades.Rows[rowIndex].Cells[0].ToString();
 		}
+
+
 	}
 }
