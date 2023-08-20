@@ -35,7 +35,7 @@ namespace Atividades
 		{
 			this.lblId.Text = "0";
 			this.txtbAtividade.Clear();
-			this.dtpCadastro.MaxDate = DateTime.Now;
+			this.dtpCadastro.Value = DateTime.Now;
 			this.dtpAtividade.MinDate = DateTime.Now;
 		}
 
