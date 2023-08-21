@@ -15,9 +15,27 @@
         <div id="inputDados">
             <div id="descricao">Descrição da Atividade:<asp:TextBox ID="txtDdescricao" runat="server"></asp:TextBox></div>
             <div id="calendarioCadastro">Data do cadastro de atividade:
-                <asp:Calendar ID="dtpDataCriado" runat="server"> </asp:Calendar></div>
+                <asp:Calendar ID="dtpDataCriado" runat="server" BackColor="White" BorderColor="#999999" CellPadding="4" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" Height="180px" Width="200px">
+                    <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" />
+                    <NextPrevStyle VerticalAlign="Bottom" />
+                    <OtherMonthDayStyle ForeColor="#808080" />
+                    <SelectedDayStyle BackColor="#666666" Font-Bold="True" ForeColor="White" />
+                    <SelectorStyle BackColor="#CCCCCC" />
+                    <TitleStyle BackColor="#999999" BorderColor="Black" Font-Bold="True" />
+                    <TodayDayStyle BackColor="#CCCCCC" ForeColor="Black" />
+                    <WeekendDayStyle BackColor="#FFFFCC" />
+                </asp:Calendar></div>
             <div id="calendarioAtividade">Data de conclusão: 
-                <asp:Calendar ID="dtpAtividade" runat="server"> </asp:Calendar></div>
+                <asp:Calendar ID="dtpAtividade" runat="server" BackColor="White" BorderColor="#999999" CellPadding="4" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" Height="180px" Width="200px">
+                    <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" />
+                    <NextPrevStyle VerticalAlign="Bottom" />
+                    <OtherMonthDayStyle ForeColor="#808080" />
+                    <SelectedDayStyle BackColor="#666666" Font-Bold="True" ForeColor="White" />
+                    <SelectorStyle BackColor="#CCCCCC" />
+                    <TitleStyle BackColor="#999999" BorderColor="Black" Font-Bold="True" />
+                    <TodayDayStyle BackColor="#CCCCCC" ForeColor="Black" />
+                    <WeekendDayStyle BackColor="#FFFFCC" />
+                </asp:Calendar></div>
 
         <div>
             <asp:Button ID="btnNovo" runat="server" Text="Novo" OnClick="btnNovo_Click"/>
@@ -29,6 +47,7 @@
             <br />
             <asp:GridView ID="IdGVAtividades" runat="server" AutoGenerateColumns="False" DataSourceID="GDVAtividades" OnSelectedIndexChanged="IdGVAtividades_SelectedIndexChanged">
                 <Columns>
+                    <asp:CommandField ShowSelectButton="True" />
                     <asp:BoundField DataField="Descricao" HeaderText="Descricao" SortExpression="Descricao" />
                     <asp:BoundField DataField="DataCriado" HeaderText="DataCriado" SortExpression="DataCriado" />
                     <asp:BoundField DataField="DataAtividade" HeaderText="DataAtividade" SortExpression="DataAtividade" />

@@ -46,10 +46,13 @@ namespace ListaAtividadesWeb
 		}
 		private void AtualizarAtividade(Atividade atividade, int id)
 		{
-			CarregarGrid();
-			ClearForm();
+			if (new AtividadeWebController().AtualizarAtividade(atividade, id))
+			{
+				id = int.Parse(idAtividade.Text);
+				CarregarGrid();
+				ClearForm();
+			}
 		}
-
 		private void DeletarAtividade(int id)
 		{
 			if (new AtividadeWebController().DeletarAtividade(id))
@@ -93,8 +96,9 @@ namespace ListaAtividadesWeb
 		}
 		protected void IdGVAtividades_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int rowIndex = (IdGVAtividades.SelectedIndex);
-			txtDdescricao.Text = IdGVAtividades.Rows[rowIndex].Cells[0].ToString();
+			int rowIndex = (IdGVAtividades.SelectedIndex); //fzer list atividades e chamar por id e atributos
+			idAtividade.Text = IdGVAtividades.Columns[0].ToString();
+			txtDdescricao.Text = IdGVAtividades.Columns[rowIndex].ToString();
 		}
 
 
