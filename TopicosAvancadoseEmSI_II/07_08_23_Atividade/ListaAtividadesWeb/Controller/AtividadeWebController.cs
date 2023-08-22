@@ -7,7 +7,7 @@ using ListaAtividadesWeb.Service;
 
 namespace ListaAtividadesWeb.Controller
 {
-	 class AtividadeWebController
+	class AtividadeWebController
 	{
 		public bool InserirAtividade(Atividade atividade)
 		{
@@ -27,6 +27,10 @@ namespace ListaAtividadesWeb.Controller
 		public List<Atividade> TodasAsAtividades()
 		{
 			return new AtividadeWebService().TodasAsAtividades();
+		}
+		public bool SelecionarAtividade(int id)
+		{
+			return new AtividadeWebService().SelecionarAtividade(id);
 		}
 	}
 }

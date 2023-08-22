@@ -45,7 +45,7 @@
                     </div>
         <div id="Lista">
             <br />
-            <asp:GridView ID="IdGVAtividades" runat="server" AutoGenerateColumns="False" DataSourceID="GDVAtividades" OnSelectedIndexChanged="IdGVAtividades_SelectedIndexChanged">
+            <asp:GridView ID="IdGVAtividades" runat="server" AutoGenerateColumns="False" DataSourceID="GDVAtividades" OnSelectedIndexChanged="IdGVAtividades_SelectedIndexChanged" Height="150px" Width="488px">
                 <Columns>
                     <asp:CommandField ShowSelectButton="True" />
                     <asp:BoundField DataField="Descricao" HeaderText="Descricao" SortExpression="Descricao" />

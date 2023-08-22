@@ -91,5 +91,22 @@ namespace ListaAtividadesWeb.Service
 			return atividades;
 
 		}
+
+	public bool SelecionarAtividade (int id)
+	{
+		List<Atividade> atividades = new List<Atividade>();
+
+		string  strSlctOne = "SELECT * from Atividades WHERE Id = @Id";
+			SqlCommand commandSlctOne = new SqlCommand(strSlctOne, conn);
+
+			commandSlctOne.Parameters.Add(new SqlParameter("@id", id));
+
+			commandSlctOne.ExecuteNonQuery();
+			conn.Close();
+
+				
+		return true;
+
 	}
+}
 }

@@ -62,6 +62,12 @@ namespace ListaAtividadesWeb
 			}
 		}
 
+		private void SelecionarAtividade(int id)
+		{
+			if (new AtividadeWebController().SelecionarAtividade(id))
+				CarregarGrid(); //talvez seja necesario criar um CarregarFormulario para receber os dados de formulário preenchido
+		}
+
 		protected void btnNovo_Click(object sender, EventArgs e)
 		{
 			ClearForm();
@@ -96,11 +102,17 @@ namespace ListaAtividadesWeb
 		}
 		protected void IdGVAtividades_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int rowIndex = (IdGVAtividades.SelectedIndex); //fzer list atividades e chamar por id e atributos
-			idAtividade.Text = IdGVAtividades.Columns[0].ToString();
-			txtDdescricao.Text = IdGVAtividades.Columns[rowIndex].ToString();
+			
+			int id = int.Parse(idAtividade.Text);
+			if (id == 0)
+			{
+
+			}
+			else this.SelecionarAtividade(id);
+
+			}
+
 		}
 
 
 	}
-}
