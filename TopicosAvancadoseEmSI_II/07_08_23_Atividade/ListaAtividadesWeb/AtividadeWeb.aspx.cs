@@ -64,7 +64,10 @@ namespace ListaAtividadesWeb
 
 		private void SelecionarAtividade(int id)
 		{
-			if (new AtividadeWebController().SelecionarAtividade(id))
+			id = int.Parse(idAtividade.Text);
+			List<Atividade> lstAtividade;
+				new AtividadeWebController().SelecionarAtividade(id);
+			
 				CarregarGrid(); //talvez seja necesario criar um CarregarFormulario para receber os dados de formulário preenchido
 		}
 
@@ -102,13 +105,13 @@ namespace ListaAtividadesWeb
 		}
 		protected void IdGVAtividades_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			
+
 			int id = int.Parse(idAtividade.Text);
 			if (id == 0)
 			{
 
 			}
-			else this.SelecionarAtividade(id);
+			else SelecionarAtividade(id);
 
 			}
 
