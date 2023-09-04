@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using Newtonsoft.Json;
+
+
 namespace WebApplication1.Models
 {
 	public class Equacao
@@ -8,45 +9,68 @@ namespace WebApplication1.Models
 		public double A { get; set; }
 		public double B { get; set; }
 		public double C { get; set; }
-		[JsonIgnore] // Isso impede que a propriedade Delta seja serializada
+
+		private double _delta;
+		private double _x1;
+		private double _x2;
+
 		public double Delta
 		{
 			get
-			{
-				return (B * B) - (4 * A * C);
+			{ 
+				return _delta;
 			}
-
+			set
+			{
+				_delta = (B * B) - (4 * A * C);
+			}
 		}
 
-		public double X1 { get => Raiz1(X1); }
-		public double Raiz1(double x1)
+		public double X1 {
+			get
+			{
+				return _x1;
+			}
+			set {
+				_x1 = Raiz1();
+			}
+		}
+		double Raiz1()
 		{
 			if (Delta >= 0)
 			{
-				x1 = (-B + Math.Sqrt(Delta)) / (2 * A);
-				return x1;
+				return (-B + Math.Sqrt(Delta)) / (2 * A);
 			}
 			else
 			{
 				// Trate o caso de raízes complexas ou delta negativo aqui, se necessário.
 				// Pode retornar NaN (Not-a-Number) ou outra coisa apropriada.
-				return x1;
+				return (-B - Math.Sqrt(Delta)) / (2 * A);
 			}
 		}
 
-		public double X2 { get => Raiz2(X2);}
-		public double Raiz2(double x2)
+		public double X2
+		{
+			get
+			{
+				return _x2;
+			}
+			set
+			{
+				_x2 = Raiz2();
+			}
+		}
+		double Raiz2()
 		{
 			if (Delta >= 0)
 			{
-				x2 = (-B - Math.Sqrt(Delta)) / (2 * A);
-				return x2;
+				return (-B - Math.Sqrt(Delta)) / (2 * A);
 			}
 			else
 			{
 				// Trate o caso de raízes complexas ou delta negativo aqui, se necessário.
 				// Pode retornar NaN (Not-a-Number) ou outra coisa apropriada.
-				return x2;
+				return (-B - Math.Sqrt(Delta)) / (2 * A);
 			}
 		}
 	}
