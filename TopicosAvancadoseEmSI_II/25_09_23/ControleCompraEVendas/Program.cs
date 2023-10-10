@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ControleCompraEVendas.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ControleCompraEVendasContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ControleCompraEVendasContext") ?? throw new InvalidOperationException("Connection string 'ControleCompraEVendasContext' not found.")));
 
 // Add services to the container.
 
