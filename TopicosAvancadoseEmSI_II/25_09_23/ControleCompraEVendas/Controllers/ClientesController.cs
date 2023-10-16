@@ -40,7 +40,7 @@ namespace ControleCompraEVendas.Controllers
           {
               return NotFound();
           }
-            var clientes = await _context.Clientes.FindAsync(id);
+            var clientes = await _context.Clientes.Include(c => c.endereco).Where(c => c.Id == id).FirstOrDefaultAsync();
 
             if (clientes == null)
             {

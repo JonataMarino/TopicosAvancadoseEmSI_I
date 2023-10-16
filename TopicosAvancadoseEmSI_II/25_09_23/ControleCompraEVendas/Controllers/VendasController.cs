@@ -29,7 +29,7 @@ namespace ControleCompraEVendas.Controllers
           {
               return NotFound();
           }
-            return await _context.Vendas.ToListAsync();
+            return await _context.Vendas.Include(v => v.cliente).Include(v => v.produto).ToListAsync();
         }
 
         // GET: api/Vendas/5
@@ -40,7 +40,7 @@ namespace ControleCompraEVendas.Controllers
           {
               return NotFound();
           }
-            var vendas = await _context.Vendas.FindAsync(id);
+            var vendas = await _context.Vendas.Include(v => v.cliente).Include(v => v.produto).Where(v => v.Id == id).FirstOrDefaultAsync();
 
             if (vendas == null)
             {
@@ -84,16 +84,53 @@ namespace ControleCompraEVendas.Controllers
         // POST: api/Vendas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Vendas>> PostVendas(Vendas vendas)
+        public async Task<ActionResult<Vendas>> PostVendas(int IdCliente, int IdProduto, int vendido)
         {
-          if (_context.Vendas == null)
+          if (_context.Vendas == null || _context.Produtos == null)
           {
               return Problem("Entity set 'ControleCompraEVendasContext.Vendas'  is null.");
           }
-            _context.Vendas.Add(vendas);
+            if (vendido <= 0)
+            {
+                return BadRequest("O valor não pode ser negativo ou igual a zero");
+            }
+           
+            Produtos? produtos = await _context.Produtos.FirstOrDefaultAsync(p => p.Id == IdProduto);
+          
+            if (vendido == null)
+                return NotFound("Nenhum produto em estoque!");
+
+            Clientes? cliente = await _context.Clientes.FindAsync(IdCliente);
+            if (cliente == null)
+            {
+                return NotFound("Cliente não encontrado!");
+            }
+
+            Produtos? produto = await _context.Produtos.FindAsync(IdProduto);
+            if (produto == null)
+            {
+                return NotFound("Nenhum Produto registrado");
+            }
+
+            Vendas venda = new Vendas()
+            {
+                cliente = cliente,
+                produto = produto,
+                vendidos = vendido
+            };
+
+            if (vendido > produtos.estoque)
+            {
+                return BadRequest();
+            }
+
+            produtos.BaixarEstoque(vendido);
+
+            _context.Produtos.Update(produtos);
+            _context.Vendas.Add(venda);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVendas", new { id = vendas.Id }, vendas);
+            return CreatedAtAction("GetVendas", new { id = venda.Id }, venda);
         }
 
         // DELETE: api/Vendas/5
