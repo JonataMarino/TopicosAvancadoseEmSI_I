@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using TestUnitXSL.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<TestUnitXSLContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TestUnitXSLContext") ?? throw new InvalidOperationException("Connection string 'TestUnitXSLContext' not found.")));
 
 // Add services to the container.
 

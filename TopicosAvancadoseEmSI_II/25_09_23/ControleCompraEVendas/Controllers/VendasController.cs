@@ -29,7 +29,7 @@ namespace ControleCompraEVendas.Controllers
           {
               return NotFound();
           }
-            return await _context.Vendas.Include(v => v.cliente).Include(v => v.produto).ToListAsync();
+            return await _context.Vendas.Include(v => v.funcionario).Include(v => v.cliente).Include(v => v.produto).ToListAsync();
         }
 
         // GET: api/Vendas/5
@@ -40,7 +40,7 @@ namespace ControleCompraEVendas.Controllers
           {
               return NotFound();
           }
-            var vendas = await _context.Vendas.Include(v => v.cliente).Include(v => v.produto).Where(v => v.Id == id).FirstOrDefaultAsync();
+            var vendas = await _context.Vendas.Include(v => v.funcionario).Include(v => v.cliente).Include(v => v.produto).Where(v => v.Id == id).FirstOrDefaultAsync();
 
             if (vendas == null)
             {
@@ -84,9 +84,9 @@ namespace ControleCompraEVendas.Controllers
         // POST: api/Vendas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Vendas>> PostVendas(int IdCliente, int IdProduto, int vendido)
+        public async Task<ActionResult<Vendas>> PostVendas(int IdCliente, int IdProduto, int IdFuncionario, int vendido)
         {
-          if (_context.Vendas == null || _context.Produtos == null)
+          if (_context.Vendas == null || _context.Produtos == null || _context.Funcionarios == null)
           {
               return Problem("Entity set 'ControleCompraEVendasContext.Vendas'  is null.");
           }
@@ -111,11 +111,17 @@ namespace ControleCompraEVendas.Controllers
             {
                 return NotFound("Nenhum Produto registrado");
             }
+            Funcionarios? funcionario = await _context.Funcionarios.FindAsync(IdFuncionario);
+            if (funcionario == null)
+            {
+                return NotFound("Nenhum Funcionário encontrado");
+            }
 
             Vendas venda = new Vendas()
             {
                 cliente = cliente,
                 produto = produto,
+                funcionario = funcionario,
                 vendidos = vendido
             };
 
