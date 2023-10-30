@@ -20,7 +20,9 @@ namespace ControleCompraEVendas.test
 			//inserir dados no DB usando context
 			using (var context = new ControleCompraEVendasContext(options))
 			{
-				context.Clientes.Add(new Clientes {Id = 1, Name = "Jonatã", Cpf = "22244455543", telefone = "65778765554", endereco = "rua com asfalto S/N" });
+				context.Clientes.Add(new Clientes { Id = 1, Name = "Jonatã", Cpf = "22244455543", telefone = "65778765554", endereco = "rua com asfalto S/N" });
+				context.Clientes.Add(new Clientes { Id = 2, Name = "Pedro", Cpf = "33344455565", telefone = "65778765554", endereco = "rua sem asfalto S/N" });
+				context.Clientes.Add(new Clientes { Id = 3, Name = "Paulo", Cpf = "55544466678", telefone = "65778765554", endereco = "rua com pouco asfalto S/N" });
 				context.SaveChanges();
 			}
 		}
@@ -35,7 +37,7 @@ namespace ControleCompraEVendas.test
 			{
 				ClientesController clientesController = new ClientesController(context);
 				IEnumerable<Clientes> clientes = clientesController.GetClientes().Result.Value;
-				Assert.Equal(1, clientes.Count());
+				Assert.Equal(3, clientes.Count());
 			}
 		}
 
@@ -43,9 +45,9 @@ namespace ControleCompraEVendas.test
 		public async void TPostClientes ()
 		{
 			InitializeDataBase();
-			Clientes cliente = new Clientes
+			Clientes cliente = new Clientes()
 			{
-				Id = 2,
+				Id = 4,
 				Name = "Novo Cliente",
 				Cpf = "12345678909",
 				telefone = "1234567890",
