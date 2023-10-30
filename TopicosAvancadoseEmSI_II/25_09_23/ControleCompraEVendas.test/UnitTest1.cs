@@ -26,7 +26,7 @@ namespace ControleCompraEVendas.test
 		}
 
 		[Fact]
-		public void TodosOsClientes()
+		public void TGetAllClientes()
 		{
 			InitializeDataBase();
 
@@ -37,6 +37,40 @@ namespace ControleCompraEVendas.test
 				IEnumerable<Clientes> clientes = clientesController.GetClientes().Result.Value;
 				Assert.Equal(1, clientes.Count());
 			}
+		}
+
+		[Fact]
+		public async void TPostClientes ()
+		{
+			InitializeDataBase();
+			Clientes cliente = new Clientes
+			{
+				Id = 2,
+				Name = "Novo Cliente",
+				Cpf = "12345678909",
+				telefone = "1234567890",
+				endereco = "rua nova 123"
+			};
+
+			using (var context = new ControleCompraEVendasContext(options))
+			{
+				ClientesController clientesController = new ClientesController(context);
+
+				await clientesController.PostClientes(cliente);
+				Clientes clienteReturn = clientesController.GetClientes(2).Result.Value;
+				Assert.Equal("Novo Cliente", clienteReturn.Name);
+				/*	var NovoCliente = new Clientes { Id = 0, Name = "Novo Cliente", Cpf = "12345678909",
+					telefone = "1234567890", endereco = "rua nova 123" }; 
+
+
+					var result = clientesController.PostClientes(NovoCliente).Result.Value;
+
+					Assert.NotNull(result);
+					Assert.Equal(NovoCliente.Name, result.Name);*/
+
+			}
+
+
 		}
 	}
 }
