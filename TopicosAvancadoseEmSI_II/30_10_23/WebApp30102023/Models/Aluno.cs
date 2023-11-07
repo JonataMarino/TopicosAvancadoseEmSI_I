@@ -14,11 +14,11 @@ namespace WebApp30102023.Models
 		public double Nota2 { get; set; }
 		public double Nota3 { get; set; }
 		public double Nota4 { get; set; }
-		public double Media(double media)
+		public double Media(double N1, double N2, double N3, double N4)
 		{
-			media = ( 1 * (Nota1 + Nota2 + Nota3 + Nota4) / 2 );
+			double media = (1 * (N1 + N2 + N3 + N4) / 4);
 			return media;
 		}
-
+ 
 	}
 }
