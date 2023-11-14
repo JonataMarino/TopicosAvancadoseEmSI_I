@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using ProjAPIP2.Controllers;
 using ProjAPIP2.Data;
 using ProjAPIP2.Models;
 
 namespace TESTProjAPIP2
 {
-    public class UnitTest1
+    public class ClienteTeste
     {
        //é necessário um teste unitário para cada classe do projeto
         private DbContextOptions<ProjAPIP2Context> options;
@@ -30,9 +31,15 @@ namespace TESTProjAPIP2
   
 
         [Fact]
-        public void AddCliente()
+        public void GetAllClientes()
         {
+            InitializaDatabase();
 
+            using (var context = new ProjAPIP2Context(options))
+            {
+                ClientesController clienteController = new ClientesController(context);
+                IEnumerable<Cliente> clientes = clienteController.Index().Result.Value;
+            }
         }
     }
 }
