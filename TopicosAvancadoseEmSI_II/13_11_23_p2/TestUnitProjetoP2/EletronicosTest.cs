@@ -1,3 +1,5 @@
+using System.Net.WebSockets;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoP2.Controllers;
 using ProjetoP2.Data;
@@ -25,7 +27,7 @@ namespace TestUnitProjetoP2
         }
 
         [Fact]
-        public void GetAllEletronicos() 
+        public async Task GetAllEletronicos() 
         {
             InitializeDatabase();
 
@@ -38,7 +40,7 @@ namespace TestUnitProjetoP2
         }
 
         [Fact]
-        public void GetEletronicoById()
+        public async Task GetEletronicoById()
         {
             InitializeDatabase();
             using (var context = new ProjetoP2Context(options))
@@ -51,7 +53,7 @@ namespace TestUnitProjetoP2
         }
 
         [Fact]
-        public async void CreateEletronico()
+        public async Task CreateEletronico()
         {
             InitializeDatabase();
             Eletronicos eletronicos = new Eletronicos()
@@ -74,7 +76,7 @@ namespace TestUnitProjetoP2
         }
 
         [Fact]
-        public async void UpdateEletronico()
+        public async Task UpdateEletronico()
         {
             InitializeDatabase();
 
@@ -95,6 +97,20 @@ namespace TestUnitProjetoP2
                 await eletronicosController.PutEletronicos(1, eletronicos);
                 Eletronicos eletronicosReturn = eletronicosController.GetEletronicos(1).Result.Value;
                 Assert.Equal("PlayStation V", eletronicosReturn.Nome);
+            }
+        }
+
+        [Fact]
+        public async Task DeleteEletronico()
+        {
+            InitializeDatabase();
+
+            using (var context = new ProjetoP2Context(options))
+            {
+                EletronicosController eletronicosController = new EletronicosController(context);
+                IActionResult result = await eletronicosController.DeleteEletronicos(1);
+                Assert.IsType<NoContentResult>(result);
+
             }
         }
     }
