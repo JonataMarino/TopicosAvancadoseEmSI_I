@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoP2.Controllers;
 using ProjetoP2.Data;
@@ -49,6 +50,66 @@ namespace TestUnitProjetoP2
                 VeiculosController veiculosController = new VeiculosController(context);
                 Veiculos veiculos = veiculosController.GetVeiculos(id).Result.Value;
                 Assert.Equal(3, veiculos.Id);
+            }
+        }
+
+
+        [Fact]
+        public async Task CreateVeiculo()
+        {
+            InitializeDatabase();
+            Veiculos veiculo = new Veiculos()
+            {
+                Id = 4,
+                Fabricante = "HONDA",
+                Modelo = "City",
+                Cor = "vermelho",
+                Ano = "2022/23"
+            };
+
+            using (var context = new ProjetoP2Context(options))
+            {
+                VeiculosController veiculosController = new VeiculosController(context);
+                await veiculosController.PostVeiculos(veiculo);
+                Veiculos veiculosReturn = veiculosController.GetVeiculos(4).Result.Value;
+                Assert.Equal("City", veiculosReturn.Modelo);
+            }
+        }
+        [Fact]
+        public async Task UpdateVeiculo()
+        {
+            InitializeDatabase();
+
+            Veiculos veiculos = new Veiculos()
+            {
+                Id = 3,
+                Fabricante = "VOLKSWAGEM",
+                Modelo = "T-CROSS",
+                Cor = "Branco",
+                Ano = "2022/23"
+
+            };
+
+            using (var context = new ProjetoP2Context(options))
+            {
+                VeiculosController veiculosController = new VeiculosController(context);
+                await veiculosController.PutVeiculos(3, veiculos);
+                Veiculos veiculosReturn = veiculosController.GetVeiculos(3).Result.Value;
+                Assert.Equal("T-CROSS", veiculosReturn.Modelo);
+            }
+        }
+
+        [Fact]
+        public async Task DeleteVeiculo()
+        {
+            InitializeDatabase();
+
+            using (var context = new ProjetoP2Context(options))
+            {
+                VeiculosController veiculosController = new VeiculosController(context);
+                IActionResult result = await veiculosController.DeleteVeiculos(1);
+                Assert.IsType<NoContentResult>(result);
+
             }
         }
     }
