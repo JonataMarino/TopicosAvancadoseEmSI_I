@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using P2_MVC_.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<P2_MVC_Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("P2_MVC_Context") ?? throw new InvalidOperationException("Connection string 'P2_MVC_Context' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
